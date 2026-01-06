@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة سرية</title>
+    <title>منشئ الرسائل السرية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,258 +14,228 @@
         }
 
         body {
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
             color: #333;
+            padding: 20px;
         }
 
         .container {
             width: 100%;
             max-width: 800px;
-            padding: 20px;
-        }
-
-        .welcome-screen {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #6a11cb;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.5s ease;
-        }
-
-        .welcome-screen h1 {
-            color: #e84393;
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .welcome-screen p {
-            font-size: 1.3rem;
-            color: #636e72;
             margin-bottom: 30px;
-            line-height: 1.6;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 15px;
         }
 
-        .welcome-screen .hearts {
-            font-size: 2rem;
-            color: #fd79a8;
-            margin: 20px 0;
-            animation: float 3s ease-in-out infinite;
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #444;
+            font-size: 1.1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        textarea {
+            min-height: 200px;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
         }
 
         .btn {
-            background: linear-gradient(to right, #e84393, #fd79a8);
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 18px 40px;
             font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(232, 67, 147, 0.4);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
             font-weight: bold;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
         }
 
         .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(232, 67, 147, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
         }
 
-        .password-screen {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .result-container {
             display: none;
-        }
-
-        .password-screen h2 {
-            color: #e84393;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-        }
-
-        .password-screen p {
-            color: #636e72;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-
-        .input-container {
-            position: relative;
-            margin: 30px 0;
-        }
-
-        .password-input {
-            width: 100%;
-            padding: 18px 20px;
-            border: 2px solid #dfe6e9;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            outline: none;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .password-input:focus {
-            border-color: #e84393;
-            box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.2);
-        }
-
-        .password-btn {
-            background: linear-gradient(to right, #0984e3, #00cec9);
-            margin-top: 10px;
-        }
-
-        .error-message {
-            color: #d63031;
-            margin-top: 15px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .show-error {
-            opacity: 1;
-        }
-
-        .message-screen {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .message-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .message-header h2 {
-            color: #e84393;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .message-header p {
-            color: #636e72;
-            font-size: 1.2rem;
-        }
-
-        .message-content {
-            background-color: #fff9fc;
-            border-radius: 15px;
+            margin-top: 40px;
             padding: 30px;
-            border-left: 5px solid #e84393;
-            margin: 20px 0;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background-color: #f8f9ff;
+            border-radius: 15px;
+            border: 2px dashed #6a11cb;
         }
 
-        .message-content p {
-            font-size: 1.4rem;
-            line-height: 1.8;
-            color: #2d3436;
+        .result-container h2 {
+            color: #2575fc;
+            margin-bottom: 25px;
             text-align: center;
-            font-style: italic;
+            font-size: 1.8rem;
         }
 
-        .signature {
-            text-align: left;
-            margin-top: 30px;
+        .result-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e1e5ff;
+        }
+
+        .result-label {
             font-weight: bold;
-            color: #e84393;
-            font-size: 1.3rem;
+            color: #6a11cb;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        .result-value {
+            font-size: 1rem;
+            word-break: break-all;
+            padding: 12px 15px;
+            background-color: #f8f9ff;
+            border-radius: 8px;
+            border: 1px solid #e1e5ff;
+            margin-bottom: 15px;
+            position: relative;
+            padding-right: 50px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .copy-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #2575fc;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .action-buttons .btn {
+            width: auto;
+            flex: 1;
+            min-width: 200px;
+            margin-top: 0;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            box-shadow: 0 5px 15px rgba(0, 176, 155, 0.4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 20px rgba(0, 176, 155, 0.6);
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+        }
+
+        .btn-tertiary:hover {
+            box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .heart {
+            color: #ff416c;
+            animation: heartbeat 1.5s infinite;
         }
 
         @keyframes heartbeat {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
-        }
-
-        @keyframes floatHearts {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
-        }
-
-        .animated-heart {
-            position: absolute;
-            font-size: 24px;
-            color: #e84393;
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .message-animation {
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .heartbeat {
-            animation: heartbeat 1.5s infinite;
-            display: inline-block;
-            margin: 0 10px;
-            color: #e84393;
-        }
-
-        .floating-hearts {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .back-btn {
-            background: linear-gradient(to right, #636e72, #b2bec3);
-            margin-top: 20px;
-            padding: 12px 30px;
-            font-size: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .welcome-screen, .password-screen, .message-screen {
-                padding: 25px;
-            }
-            
-            .welcome-screen h1 {
-                font-size: 2.2rem;
-            }
-            
-            .message-content p {
-                font-size: 1.2rem;
-            }
-            
-            .message-header h2 {
-                font-size: 2rem;
-            }
         }
 
         /* تصميم اسم المطور - زجاجي شفاف */
@@ -299,16 +269,32 @@
         }
 
         .glass-effect i {
-            color: #e84393;
+            color: #6a11cb;
             font-size: 1.2rem;
         }
 
         .glass-effect strong {
-            color: #fd79a8;
+            color: #030303;
             font-weight: bold;
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+            }
+            
             .developer-credit {
                 bottom: 10px;
                 left: 10px;
@@ -323,51 +309,57 @@
 </head>
 <body>
     <div class="container">
-        <div class="welcome-screen" id="welcomeScreen">
-            <div class="hearts">
-                <i class="fas fa-heart heartbeat"></i>
-                <i class="fas fa-heart heartbeat"></i>
-                <i class="fas fa-heart heartbeat"></i>
-            </div>
-            <h1>أهلاً وسهلاً بك!</h1>
-            <p>هذا الموقع يحتوي على رسالة خاصة جداً موجهة لشخص عزيز</p>
-            <p>ستحتاج إلى كلمة السر الصحيحة لقراءة هذه الرسالة</p>
-            <div class="hearts">
-                <i class="fas fa-heart heartbeat"></i>
-                <i class="fas fa-heart heartbeat"></i>
-                <i class="fas fa-heart heartbeat"></i>
-            </div>
-            <button class="btn" id="enterBtn">ادخل إلى الرسالة</button>
+        <h1><i class="fas fa-heart heart"></i> منشئ الرسائل السرية <i class="fas fa-heart heart"></i></h1>
+        
+        <div class="alert" id="alert"></div>
+        
+        <div class="form-group">
+            <label for="personName"><i class="fas fa-user"></i> اسم الشخص الموجهة له الرسالة</label>
+            <input type="text" id="personName" placeholder="أدخل اسم الشخص الذي تريد إرسال الرسالة إليه">
         </div>
-
-        <div class="password-screen" id="passwordScreen">
-            <h2>كلمة السر المطلوبة</h2>
-            <p>أدخل كلمة السر الصحيحة لقراءة الرسالة</p>
-            <div class="input-container">
-                <input type="text" class="password-input" id="passwordInput" placeholder="أدخل كلمة السر هنا...">
-            </div>
-            <button class="btn password-btn" id="submitPassword">عرض الرسالة</button>
-            <p class="error-message" id="errorMessage">كلمة السر غير صحيحة، حاول مرة أخرى!</p>
-            <button class="btn back-btn" id="backToWelcome">العودة للترحيب</button>
+        
+        <div class="form-group">
+            <label for="message"><i class="fas fa-envelope"></i> الرسالة السرية</label>
+            <textarea id="message" placeholder="اكتب رسالتك السرية هنا..."></textarea>
         </div>
-
-        <div class="message-screen" id="messageScreen">
-            <div class="floating-hearts" id="floatingHearts"></div>
-            <div class="message-header">
-                <h2 id="messageTitle">رسالة خاصة لـ <span id="recipientName">حبيبتي</span></h2>
-                <p>إلى أعز الناس على قلبي...</p>
+        
+        <div class="form-group">
+            <label for="password"><i class="fas fa-lock"></i> كلمة السر للدخول إلى الرسالة</label>
+            <input type="text" id="password" placeholder="اختر كلمة سر يستخدمها الشخص للدخول إلى الرسالة">
+            <small style="color: #666; display: block; margin-top: 8px;">سيتم استخدام هذه الكلمة للدخول إلى الرسالة في الموقع الآخر</small>
+        </div>
+        
+        <button class="btn" id="generateBtn"><i class="fas fa-magic"></i> إنشاء رابط الرسالة</button>
+        
+        <div class="result-container" id="resultContainer">
+            <h2><i class="fas fa-link"></i> رابط الرسالة والمعلومات</h2>
+            
+            <div class="result-box">
+                <div class="result-label"><i class="fas fa-link"></i> رابط الرسالة السرية:</div>
+                <div class="result-value" id="generatedLink">
+                    <!-- سيتم إضافة الرابط هنا -->
+                </div>
             </div>
-            <div class="message-content message-animation">
-                <p id="messageText">
-                    حبيبتي الغالية،<br><br>
-                    كلماتي تقف عاجزة عن وصف ما بداخلي من مشاعر تجاهك. أنت النور الذي يضيء حياتي، والفرحة التي تملأ أيامي. كل لحظة أقضيها معك هي كنز ثمين أحتفظ به في قلبي.<br><br>
-                    شكراً لأنك دوماً بجانبي، شكراً لأنك تجعلينني شخصاً أفضل، شكراً لأنك أنت.<br><br>
-                    أحبك أكثر مما تستطيع الكلمات التعبير عنه، وأتمنى أن نبقى معاً إلى الأبد.
-                </p>
-                <div class="signature">مع كل الحب،<br>شخص يحبك كثيراً</div>
+            
+            <div class="result-box">
+                <div class="result-label"><i class="fas fa-lock"></i> كلمة السر:</div>
+                <div class="result-value" id="generatedPassword">
+                    <!-- سيتم إضافة كلمة السر هنا -->
+                </div>
             </div>
-            <div style="text-align: center; margin-top: 30px;">
-                <button class="btn back-btn" id="backToPassword">العودة لشاشة الدخول</button>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary" id="testLinkBtn">
+                    <i class="fas fa-external-link-alt"></i> توجه إلى موقع الرسالة
+                </button>
+                
+                <button class="btn btn-tertiary" id="newMessageBtn">
+                    <i class="fas fa-plus"></i> إنشاء رسالة جديدة
+                </button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 25px; color: #666; font-size: 0.9rem;">
+                <p><i class="fas fa-info-circle"></i> أرسل الرابط وكلمة السر للشخص الذي تريد إرسال الرسالة إليه</p>
             </div>
         </div>
     </div>
@@ -381,162 +373,155 @@
     </div>
 
     <script>
-        // عناصر DOM
-        const welcomeScreen = document.getElementById('welcomeScreen');
-        const passwordScreen = document.getElementById('passwordScreen');
-        const messageScreen = document.getElementById('messageScreen');
-        const enterBtn = document.getElementById('enterBtn');
-        const submitPasswordBtn = document.getElementById('submitPassword');
-        const passwordInput = document.getElementById('passwordInput');
-        const errorMessage = document.getElementById('errorMessage');
-        const backToWelcomeBtn = document.getElementById('backToWelcome');
-        const backToPasswordBtn = document.getElementById('backToPassword');
-        const floatingHearts = document.getElementById('floatingHearts');
-        const messageText = document.getElementById('messageText');
-        const recipientName = document.getElementById('recipientName');
-
-        // كلمة السر الافتراضية
-        let correctPassword = "حبيبتي";
-
-        // دالة لقراءة البيانات من الرابط
-        function getDataFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const dataParam = urlParams.get('data');
-            
-            if (dataParam) {
-                try {
-                    // فك تشفير البيانات
-                    const decodedData = decodeURIComponent(atob(dataParam));
-                    const data = JSON.parse(decodedData);
-                    return data;
-                } catch (error) {
-                    console.error('خطأ في قراءة البيانات:', error);
-                    return null;
-                }
-            }
-            return null;
-        }
-
-        // عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlData = getDataFromURL();
-            
-            if (urlData) {
-                // إذا وجدت بيانات في الرابط، تحديث الرسالة واسم الشخص وكلمة السر
-                correctPassword = urlData.password;
-                
-                if (urlData.name) {
-                    recipientName.textContent = urlData.name;
-                }
-                
-                if (urlData.message) {
-                    messageText.innerHTML = urlData.message;
-                }
-                
-                // تحديث عنوان الصفحة
-                document.title = `رسالة لـ ${urlData.name || 'حبيبتي'}`;
-                
-                // تخطي شاشة الترحيب والذهاب مباشرة لشاشة كلمة السر
-                welcomeScreen.style.display = 'none';
-                passwordScreen.style.display = 'block';
-            }
-        });
-
-        // الانتقال من شاشة الترحيب إلى شاشة كلمة السر
-        enterBtn.addEventListener('click', function() {
-            welcomeScreen.style.display = 'none';
-            passwordScreen.style.display = 'block';
-            passwordInput.focus();
-        });
-
-        // العودة من شاشة كلمة السر إلى شاشة الترحيب
-        backToWelcomeBtn.addEventListener('click', function() {
-            passwordScreen.style.display = 'none';
-            welcomeScreen.style.display = 'block';
-            passwordInput.value = '';
-            errorMessage.classList.remove('show-error');
-        });
-
-        // العودة من شاشة الرسالة إلى شاشة كلمة السر
-        backToPasswordBtn.addEventListener('click', function() {
-            messageScreen.style.display = 'none';
-            passwordScreen.style.display = 'block';
-            passwordInput.value = '';
-            errorMessage.classList.remove('show-error');
-            stopHeartsAnimation();
-        });
-
-        // التحقق من كلمة السر
-        submitPasswordBtn.addEventListener('click', function() {
-            const userInput = passwordInput.value.trim();
-            
-            if (userInput === correctPassword) {
-                passwordScreen.style.display = 'none';
-                messageScreen.style.display = 'block';
-                startHeartsAnimation();
-                
-                const messageContent = document.querySelector('.message-content');
-                messageContent.classList.remove('message-animation');
-                void messageContent.offsetWidth;
-                messageContent.classList.add('message-animation');
-            } else {
-                errorMessage.classList.add('show-error');
-                passwordInput.style.borderColor = '#d63031';
-                passwordInput.style.boxShadow = '0 0 0 3px rgba(214, 48, 49, 0.2)';
-                
-                setTimeout(() => {
-                    passwordInput.style.borderColor = '#dfe6e9';
-                    passwordInput.style.boxShadow = 'none';
-                }, 2000);
-            }
-        });
-
-        // السماح بإدخال كلمة السر بالضغط على Enter
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitPasswordBtn.click();
-            }
-        });
-
-        // دالة لإنشاء قلوب متحركة
-        function startHeartsAnimation() {
-            floatingHearts.innerHTML = '';
-            
-            for (let i = 0; i < 15; i++) {
-                createFloatingHeart(i);
-            }
-        }
-
-        function createFloatingHeart(index) {
-            const heart = document.createElement('div');
-            heart.classList.add('animated-heart');
-            heart.innerHTML = '<i class="fas fa-heart"></i>';
-            
-            const size = Math.random() * 20 + 15;
-            heart.style.fontSize = `${size}px`;
-            
-            const startPosition = Math.random() * 100;
-            heart.style.left = `${startPosition}%`;
-            
-            const delay = Math.random() * 5;
-            const duration = Math.random() * 10 + 10;
-            
-            heart.style.animation = `floatHearts ${duration}s linear ${delay}s infinite`;
-            
-            floatingHearts.appendChild(heart);
+        // العناصر
+        const generateBtn = document.getElementById('generateBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const generatedLink = document.getElementById('generatedLink');
+        const generatedPassword = document.getElementById('generatedPassword');
+        const testLinkBtn = document.getElementById('testLinkBtn');
+        const newMessageBtn = document.getElementById('newMessageBtn');
+        const alertBox = document.getElementById('alert');
+        
+        // المتغيرات
+        let currentLink = '';
+        let currentPassword = '';
+        
+        // رابط موقع الرسالة السرية - رابط موقعك الأول
+        const baseUrl = "https://hooda2025g-dot.github.io/hooda-von/";
+        
+        // دالة لعرض التنبيهات
+        function showAlert(message, type = 'success') {
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
             
             setTimeout(() => {
-                if (floatingHearts.contains(heart)) {
-                    heart.remove();
-                    createFloatingHeart(index);
-                }
-            }, (duration + delay) * 1000);
+                alertBox.style.display = 'none';
+            }, 5000);
         }
-
-        // إيقاف أنيميشن القلوب
-        function stopHeartsAnimation() {
-            floatingHearts.innerHTML = '';
+        
+        // دالة لإنشاء الرابط
+        function generateLink() {
+            const personName = document.getElementById('personName').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // التحقق من الحقول
+            if (!personName || !message || !password) {
+                showAlert('يرجى ملء جميع الحقول', 'error');
+                return false;
+            }
+            
+            // تشفير البيانات
+            const data = {
+                name: personName,
+                message: message,
+                password: password
+            };
+            
+            // تحويل البيانات إلى نص يمكن وضعه في الرابط
+            const encodedData = btoa(encodeURIComponent(JSON.stringify(data)));
+            
+            // إنشاء الرابط
+            currentLink = `${baseUrl}?data=${encodedData}`;
+            currentPassword = password;
+            
+            return true;
         }
+        
+        // عند النقر على زر إنشاء الرابط
+        generateBtn.addEventListener('click', function() {
+            if (generateLink()) {
+                // عرض الرابط وكلمة السر
+                generatedLink.innerHTML = `
+                    ${currentLink}
+                    <button class="copy-btn" id="copyLinkBtn">
+                        <i class="fas fa-copy"></i> نسخ
+                    </button>
+                `;
+                
+                generatedPassword.innerHTML = `
+                    ${currentPassword}
+                    <button class="copy-btn" id="copyPasswordBtn">
+                        <i class="fas fa-copy"></i> نسخ
+                    </button>
+                `;
+                
+                // إضافة أحداث نسخ
+                document.getElementById('copyLinkBtn').addEventListener('click', copyLink);
+                document.getElementById('copyPasswordBtn').addEventListener('click', copyPassword);
+                
+                // إظهار نتيجة
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+                
+                showAlert('تم إنشاء الرابط بنجاح! يمكنك نسخ الرابط وإرساله.', 'success');
+            }
+        });
+        
+        // دالة نسخ الرابط
+        function copyLink() {
+            navigator.clipboard.writeText(currentLink)
+                .then(() => {
+                    showAlert('تم نسخ الرابط إلى الحافظة', 'success');
+                })
+                .catch(err => {
+                    showAlert('حدث خطأ أثناء نسخ الرابط', 'error');
+                    console.error('Error copying link: ', err);
+                });
+        }
+        
+        // دالة نسخ كلمة السر
+        function copyPassword() {
+            navigator.clipboard.writeText(currentPassword)
+                .then(() => {
+                    showAlert('تم نسخ كلمة السر إلى الحافظة', 'success');
+                })
+                .catch(err => {
+                    showAlert('حدث خطأ أثناء نسخ كلمة السر', 'error');
+                    console.error('Error copying password: ', err);
+                });
+        }
+        
+        // عند النقر على زر التجربة
+        testLinkBtn.addEventListener('click', function() {
+            if (currentLink) {
+                window.open(currentLink, '_blank');
+            } else {
+                showAlert('لم يتم إنشاء رابط بعد', 'error');
+            }
+        });
+        
+        // عند النقر على زر إنشاء رسالة جديدة
+        newMessageBtn.addEventListener('click', function() {
+            // إعادة تعيين النموذج
+            document.getElementById('personName').value = '';
+            document.getElementById('message').value = '';
+            document.getElementById('password').value = '';
+            
+            // إخفاء النتائج
+            resultContainer.style.display = 'none';
+            
+            // التركيز على الحقل الأول
+            document.getElementById('personName').focus();
+            
+            showAlert('يمكنك الآن إنشاء رسالة جديدة', 'success');
+        });
+        
+        // السماح باستخدام Enter لإرسال النموذج
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+        
+        // ملء الحقول بمثال للمساعدة
+        document.addEventListener('DOMContentLoaded', function() {
+            // يمكنك إزالة هذه الأسطر إذا لم ترد الأمثلة
+            document.getElementById('personName').value = "حبيبتي";
+            document.getElementById('message').value = "أحبك أكثر مما تستطيع الكلمات التعبير عنه...";
+            document.getElementById('password').value = "حبنا";
+        });
     </script>
 </body>
 </html>
